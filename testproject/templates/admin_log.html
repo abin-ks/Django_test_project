@@ -1,0 +1,106 @@
+{% extends 'base.html' %} {% load static %} {% block body %}
+
+<style>
+    .note {
+        text-align: center;
+        height: 80px;
+        background: -webkit-linear-gradient(left, #0072ff, #8811c5);
+        color: #fff;
+        font-weight: bold;
+        line-height: 80px;
+    }
+    
+    body {
+        margin: 0;
+        font-family: 'Lato', sans-serif;
+        font-size: 12px;
+        line-height: 1.8em;
+        text-transform: none;
+        letter-spacing: .075em;
+        font-weight: bold;
+        font-style: normal;
+        text-decoration: none;
+        color: #e7bd74;
+        background-color: rgba(34, 28, 28);
+        display: block;
+    }
+    
+    .title {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .form-content {
+        padding: 5%;
+        border: 1px solid #ced4da;
+        margin-bottom: 2%;
+    }
+    
+    .form-control {
+        border-radius: 1.5rem;
+    }
+    
+    .btnSubmit {
+        border: none;
+        border-radius: 1.5rem;
+        padding: 1%;
+        width: 20%;
+        cursor: pointer;
+        background: #0062cc;
+        color: #fff;
+    }
+    
+    h1 {
+        font-family: sans-serif;
+        display: block;
+        font-size: 1rem;
+        font-weight: bold;
+        text-align: center;
+        letter-spacing: 3px;
+        color: hotpink;
+        text-transform: uppercase;
+        padding-top: 20px;
+    }
+    
+    a {
+        text-decoration: none;
+        color: #fff;
+    }
+    
+    a:hover {
+        text-decoration: none;
+        color: #fff;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="form p-3 mt-5">
+            <div class="note">
+                <h1> Registration Form </h1>
+            </div>
+            <div class="form-content">
+                <form action="login" method="post">
+                    {% csrf_token %}
+
+                    <div class="row align-items-center mt-4 ">
+                        <div class="col ">
+                            <input type="text" name="username" class="form-control" placeholder="Enter Your Username">
+                        </div>
+                    </div>
+                    <div class="row align-items-center mt-4 ">
+                        <div class="col ">
+                            <input type="password" name="password" class="form-control" placeholder="Enter Your Password">
+                        </div>
+                    </div>
+                    <div class="row justify-content-start">
+                        <div class="col ">
+
+                            <button type="submit" class="btnSubmit mt-3 pt-3"> Submit </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+</body>
+
+{% endblock body %}
