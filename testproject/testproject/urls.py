@@ -24,6 +24,10 @@ urlpatterns = [
     re_path(r'^admin/', admin.site.urls),
     re_path(r'blog1/', include('blog1.urls')),
     re_path(r'^$', views.india, name='india'),
+    
+    # app2
+    re_path(r'blog2/', include('blog2.urls')),
+    re_path(r'^$', views.ind, name='ind'),
 ]
 
 if settings.DEBUG:

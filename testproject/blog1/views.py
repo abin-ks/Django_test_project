@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from .models import *
-
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def admin_reg(request):
-    
-    
     return render(request, 'admin_reg.html')
 
 def register(request):
@@ -24,8 +23,10 @@ def register(request):
             else:
                 user = User.objects.create_user(first_name=firstname,last_name=lastname,email=email,username=username,password=password)
                 user.save()
+                messages.info(request, 'Registration successfully completed')
                 return redirect('admin_log')
         else:
+            messages.info(request, 'password not matching')
             return redirect('admin_reg')
     else:
         return redirect('admin_reg')
@@ -44,13 +45,16 @@ def login(request):
         
         if user is not None:
             auth.login(request,user)
-            
+            messages.info(request, 'login successfully')
             return redirect('company_reg')
         else:
+            messages.info(request, 'Username or password incorrectly')
             return redirect('admin_log')
     else:
         return redirect('admin_log')
-    
+ 
+
+@login_required(login_url='admin_log')
 def company_reg(request):
     
     return render(request, 'company_reg.html')
@@ -71,19 +75,34 @@ def company_save(request):
         x = User.objects.get(id=request.user.id)
         
         print(request.user.username)
+        if Company.objects.filter(userid=x).exists():
+            return redirect('company_reg')
         
-        win = Company(name=name,company_type=companytype,business_name=businessname,email=email,phone_number=phonenumber,website=website,
-                      city=city,State=state,Country=country,Pincode=pincode,company_logo=companylogo,userid=x)
+        elif Company.objects.filter(business_name=businessname).exists():
+            return redirect('company_reg')
+         
+        else:
+            
+            win = Company(name=name,company_type=companytype,business_name=businessname,email=email,phone_number=phonenumber,website=website,
+                        city=city,State=state,Country=country,Pincode=pincode,company_logo=companylogo,userid=x)
 
-        win.save()
+            win.save()
         
        
-        
-        return redirect('branch_reg')
+            messages.info(request, 'Company registration successfully')
+            return redirect('branch_reg')
     else:
+        messages.info(request, 'Registration Failed')
         return redirect('company_reg')
     
+    
+@login_required(login_url='admin_log')
 def branch_reg(request):
-    pr = Company.objects.all()
+    x = User.objects.get(id=request.user.id)
+    pr = Company.objects.get(userid=x)
     return render(request, 'branch_reg.html',{'pr':pr})
+
+def logout(request):
+    auth.logout(request)
+    return redirect('admin_reg')
         
